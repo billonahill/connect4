@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7
+#!/usr/bin/python
 
 import time
 import curses
@@ -138,7 +138,7 @@ class ConnectFour:
           return diag
         diag.append(grid[x + h][h])
       except IndexError:
-        print "right_diag x=%s, h=%s, w=%s, H=%s" % (x, h, self.WIDTH, self.HEIGHT)
+        print("right_diag x=%s, h=%s, w=%s, H=%s" % (x, h, self.WIDTH, self.HEIGHT))
         return diag
 
     return diag
@@ -151,7 +151,7 @@ class ConnectFour:
           return diag
         diag.append(grid[x - h][h])
       except IndexError:
-        print "left_diag x=%s, h=%s, w=%s, H=%s" % (x, h, self.WIDTH, self.HEIGHT)
+        print("left_diag x=%s, h=%s, w=%s, H=%s" % (x, h, self.WIDTH, self.HEIGHT))
         return diag
     return diag
       
