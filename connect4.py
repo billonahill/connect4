@@ -1,15 +1,13 @@
-#!/bin/bash
+#!/usr/bin/python2.7
 
 import time
 import curses
 
-from curses import wrapper
-
 class ConnectFour:
-  WIDTH=7
-  HEIGHT=7
-  CONNECT=4
-  TOKENS=['x','o']
+  WIDTH = 7
+  HEIGHT = 7
+  CONNECT = 4
+  TOKENS = ['x','o']
   MESSAGE = "Player %d (%s), enter column from 1 to " + str(WIDTH) + " (hit q to exit): "
 
   def __init__(self, stdscr):
@@ -27,8 +25,8 @@ class ConnectFour:
 
   def refresh(self):
     self.stdscr.refresh()
-    xoffset,yoffset = [20,3]
-    self.board.refresh(0,0, yoffset,xoffset, self.bheight+yoffset,self.bwidth+xoffset)
+    xoffset, yoffset = [20, 3]
+    self.board.refresh(0, 0, yoffset, xoffset, self.bheight + yoffset, self.bwidth + xoffset)
 
   def grid_to_board(self, x, y):
     return [x * 2 + 1, y * 2 + 1]
@@ -83,7 +81,7 @@ class ConnectFour:
         turn = turn + 1
 
   def get_token(self, player):
-    return self.TOKENS[player-1]
+    return self.TOKENS[player - 1]
 
   def prompt(self, player):
     self.stdscr.addstr(0, 0, self.MESSAGE % (player, self.get_token(player)))
@@ -99,13 +97,13 @@ class ConnectFour:
       if self.grid[column][y] is None: # go up until first empty cell
         for h in range(0, self.HEIGHT - y - 1):
           bx, by = self.grid_to_board(column, h)
-          self.board.addch(by,bx, token, color_pair)
+          self.board.addch(by, bx, token, color_pair)
           self.refresh()
           time.sleep(.25)
-          self.board.addch(by,bx, ' ', curses.color_pair(0))
+          self.board.addch(by, bx, ' ', curses.color_pair(0))
 
         bx, by = self.grid_to_board(column, y)
-        self.board.addch(2 * self.HEIGHT - by,bx, token, color_pair)
+        self.board.addch(2 * self.HEIGHT - by, bx, token, color_pair)
         self.grid[column][y] = player
         self.stdscr.delch(0, len(self.MESSAGE) - 1)
         return y
@@ -133,12 +131,12 @@ class ConnectFour:
     return 0
 
   def right_diag(self, grid, x):
-    diag=[] 
+    diag = [] 
     for h in range(0, self.HEIGHT):
       try:
-        if x+h >= (self.WIDTH - 1) or grid[x+h][h] == None:
+        if x + h >= (self.WIDTH - 1) or grid[x + h][h] == None:
           return diag
-        diag.append(grid[x+h][h])
+        diag.append(grid[x + h][h])
       except IndexError:
         print "right_diag x=%s, h=%s, w=%s, H=%s" % (x, h, self.WIDTH, self.HEIGHT)
         return diag
@@ -146,12 +144,12 @@ class ConnectFour:
     return diag
 
   def left_diag(self, grid, x):
-    diag=[] 
+    diag = [] 
     for h in range(0, self.HEIGHT):
       try:
-        if x-h < 0 or grid[x-h][h] == None:
+        if x - h < 0 or grid[x - h][h] == None:
           return diag
-        diag.append(grid[x-h][h])
+        diag.append(grid[x - h][h])
       except IndexError:
         print "left_diag x=%s, h=%s, w=%s, H=%s" % (x, h, self.WIDTH, self.HEIGHT)
         return diag
@@ -185,4 +183,4 @@ def main(stdscr):
   game = ConnectFour(stdscr)
   game.play()
 
-wrapper(main)
+curses.wrapper(main)
